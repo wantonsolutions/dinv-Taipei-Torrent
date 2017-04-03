@@ -64,6 +64,7 @@ func RunTorrents(flags *TorrentFlags, torrentFiles []string) (err error) {
 	if flags.UseDHT {
 		dhtNode = *startDHT(flags.Port)
 	}
+	for true {} //DINV TODO delete
 
 	torrentSessions := make(map[string]*TorrentSession)
 

@@ -8,6 +8,8 @@ import (
 	"time"
 
 	bencode "github.com/jackpal/bencode-go"
+	//"github.com/arcaneiceman/GoVector/capture"
+	//"bitbucket.org/bestchai/dinv/dinvRT"
 )
 
 const MAX_OUR_REQUESTS = 2
@@ -210,6 +212,7 @@ func uint32ToBytes(buf []byte, n uint32) {
 func writeNBOUint32(conn net.Conn, n uint32) (err error) {
 	var buf []byte = make([]byte, 4)
 	uint32ToBytes(buf, n)
+	//_, err = capture.Write(conn.Write,buf[0:])
 	_, err = conn.Write(buf[0:])
 	return
 }
@@ -223,6 +226,7 @@ func bytesToUint32(buf []byte) uint32 {
 func readNBOUint32(conn net.Conn) (n uint32, err error) {
 	var buf [4]byte
 	_, err = conn.Read(buf[0:])
+	//_, err = capture.Read(conn.Read,buf[0:])
 	if err != nil {
 		return
 	}
@@ -257,6 +261,8 @@ func (p *peerState) peerWriter(errorChan chan peerMessage) {
 			break
 		}
 		_, err = p.conn.Write(msg)
+		//_, err = capture.Write(p.conn.Write,msg) //NOTE DINV INST
+
 		if err != nil {
 			// log.Println("Failed to write a message", p.address, len(msg), msg, err)
 			break
@@ -291,6 +297,8 @@ func (p *peerState) peerReader(msgChan chan peerMessage) {
 		}
 
 		_, err = io.ReadFull(p.conn, buf)
+		//dinvRT.Unpack(buf,&buf)
+		//_, err = capture.Read(p.conn.Read, buf) //NOTE HAND DONE DINV
 		if err != nil {
 			break
 		}

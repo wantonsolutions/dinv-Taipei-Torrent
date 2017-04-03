@@ -13,6 +13,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	//"github.com/arcaneiceman/GoVector/capture"
 )
 
 type upnpNAT struct {
@@ -49,13 +50,17 @@ func Discover() (nat NAT, err error) {
 	message := buf.Bytes()
 	answerBytes := make([]byte, 1024)
 	for i := 0; i < 3; i++ {
+
+		//_, err = capture.WriteToUDP(socket.WriteToUDP,message,ssdp) //DINV
 		_, err = socket.WriteToUDP(message, ssdp)
 		if err != nil {
 			return
 		}
 		var n int
+		//n, _, err = capture.ReadFromUDP(socket.ReadFromUDP,answerBytes) //DINV
 		n, _, err = socket.ReadFromUDP(answerBytes)
 		for {
+			//n, _, err = capture.ReadFromUDP(socket.ReadFromUDP,answerBytes) //DINV
 			n, _, err = socket.ReadFromUDP(answerBytes)
 			if err != nil {
 				break

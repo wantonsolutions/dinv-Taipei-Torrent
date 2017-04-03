@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"golang.org/x/net/proxy"
+	//"github.com/arcaneiceman/GoVector/capture"
 )
 
 // Code to talk to trackers.
@@ -363,6 +364,7 @@ func getAnnouncementFromUDPTracker(con *net.UDPConn, connectionID uint64, report
 		return
 	}
 
+	//_, err = capture.Write(con.Write,announcementRequest.Bytes())
 	_, err = con.Write(announcementRequest.Bytes())
 	if err != nil {
 		return
@@ -374,6 +376,7 @@ func getAnnouncementFromUDPTracker(con *net.UDPConn, connectionID uint64, report
 	responseBytes := make([]byte, expectedResponseLen)
 
 	var responseLen int
+	//responseLen, err = capture.Read(con.Read,responseBytes)
 	responseLen, err = con.Read(responseBytes)
 	if err != nil {
 		return

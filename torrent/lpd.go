@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/http"
 	"time"
+//	"github.com/arcaneiceman/GoVector/capture"
 )
 
 var (
@@ -58,6 +59,7 @@ func NewAnnouncer(listenPort uint16) (lpd *Announcer, err error) {
 func (lpd *Announcer) run() {
 	for {
 		answer := make([]byte, 256)
+		//_, from, err := capture.ReadFromUDP(lpd.conn.ReadFromUDP,answer)
 		_, from, err := lpd.conn.ReadFromUDP(answer)
 		if err != nil {
 			log.Println("Error reading from UDP: ", err)
@@ -102,6 +104,7 @@ func (lpd *Announcer) Announce(ih string) {
 
 		// Announce at launch, then every 5 minutes
 		_, err := lpd.conn.WriteToUDP(requestMessage, lpd.addr)
+		//_, err := capture.WriteToUDP(lpd.conn.WriteToUDP,requestMessage, lpd.addr)
 		if err != nil {
 			log.Println(err)
 		}
@@ -110,6 +113,7 @@ func (lpd *Announcer) Announce(ih string) {
 		lpd.activeAnnounces[ih] = ticker
 
 		for _ = range ticker.C {
+			//_, err := capture.WriteToUDP(lpd.conn.WriteToUDP,requestMessage, lpd.addr)
 			_, err := lpd.conn.WriteToUDP(requestMessage, lpd.addr)
 			if err != nil {
 				log.Println(err)

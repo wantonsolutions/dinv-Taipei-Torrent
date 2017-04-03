@@ -22,6 +22,8 @@ import (
 	bencode "github.com/jackpal/bencode-go"
 	"github.com/nictuku/dht"
 	"github.com/nictuku/nettools"
+
+	//"github.com/arcaneiceman/GoVector/capture"
 )
 
 const (
@@ -395,6 +397,7 @@ func (ts *TorrentSession) connectToPeer(peer string) {
 		return
 	}
 
+	//_, err = capture.Write(conn.Write,ts.Header())
 	_, err = conn.Write(ts.Header())
 	if err != nil {
 		log.Println("[", ts.M.Info.Name, "] Failed to send header to", peer, err)
@@ -420,6 +423,7 @@ func (ts *TorrentSession) connectToPeer(peer string) {
 }
 
 func (ts *TorrentSession) AcceptNewPeer(btconn *BtConn) {
+	//_, err := capture.Write(btconn.conn.Write,ts.Header())
 	_, err := btconn.conn.Write(ts.Header())
 	if err != nil {
 		return
